@@ -4,8 +4,15 @@ SELECT * from pedido p where p.id_cliente=(SELECT c.id from cliente c
 	WHERE c.nombre = 'Adela' AND c.apellido1 = 'Salas' AND c.apellido2 = 'Díaz');
 
 -- 2. Devuelve el número de pedidos en los que ha participado el comercial Daniel Sáez Vega. (Sin utilizar INNER JOIN).
-SELECT * from pedido p where p.id_cliente=(SELECT co.id from comercial co where nombre="Salas" AND co.apellido="Sáez" )
-
+SELECT COUNT(*) AS numero_pedidos
+FROM pedido p 
+WHERE p.id_comercial = (
+    SELECT co.id 
+    FROM comercial co 
+    WHERE co.nombre = 'Daniel' 
+      AND co.apellido1 = 'Sáez' 
+      AND co.apellido2 = 'Vega'
+);
 -- 3. Devuelve los datos del cliente que realizó el pedido más caro en el año 2019. (Sin utilizar INNER JOIN).
 SELECT * 
 FROM cliente c 
@@ -33,6 +40,7 @@ WHERE p.id_cliente = (
 )
 ORDER BY p.total ASC
 LIMIT 1;
+
 SELECT p.fecha, p.total FROM pedido p INNER JOIN cliente c ON p.id_cliente = c.id WHERE c.nombre = 'Pepe' AND c.apellido1 = 'Ruiz' AND c.apellido2 = 'Santana' ORDER BY p.total ASC LIMIT 1;
 
 -- 5. Devuelve un listado con los datos de los clientes y los pedidos, de todos los clientes que 

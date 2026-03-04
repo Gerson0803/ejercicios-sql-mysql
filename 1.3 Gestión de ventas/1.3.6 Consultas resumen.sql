@@ -2,7 +2,7 @@
 SELECT SUM(total) as total_ventas_pedidos from pedido;
 
 --2. Calcula la cantidad media de todos los pedidos que aparecen en la tabla pedido.
-SELECT AVG(total) promedio_ventas from pedido as ;
+SELECT AVG(total) promedio_ventas from pedido;
 
 --3. Calcula el número total de comerciales distintos que aparecen en la tabla pedido.
 SELECT COUNT(DISTINCT(id_comercial)) as total_comerciales from pedido; 
@@ -79,11 +79,12 @@ SELECT c.id,c.nombre,c.apellido1,c.apellido2, COUNT(p.id) as pedidos_realizados 
 		group by c.id,c.nombre,c.apellido1,c.apellido2; 
 
 --12. Devuelve un listado con el identificador de cliente, nombre y apellidos y 
-el número total de pedidos que ha realizado cada uno de clientes durante el año 2017.
-SELECT c.id,c.nombre,c.apellido1,c.apellido2,COUNT(p.id) as pedidos_2017 from cliente c
-	left join pedido p on c.id=p.id_cliente where year(p.fecha)=2017
-    group by c.id,c.nombre,c.apellido1,c.apellido2;
-
+--el número total de pedidos que ha realizado cada uno de clientes durante el año 2017.
+SELECT c.id, c.nombre, c.apellido1, c.apellido2, 
+       COUNT(CASE WHEN YEAR(p.fecha) = 2017 THEN 1 END) AS pedidos_2017
+FROM cliente c
+LEFT JOIN pedido p ON c.id = p.id_cliente
+GROUP BY c.id, c.nombre, c.apellido1, c.apellido2;
 --13. Devuelve un listado que muestre el identificador de cliente, nombre, primer apellido
  -- y el valor de la máxima cantidad del pedido realizado por cada uno de los clientes. 
 --    El resultado debe mostrar aquellos clientes que no han realizado ningún pedido 
